@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Extension Options</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/webp" href="icon_bg.webp">
+</head>
+<body>
+    <div class="container">
+        <div class="image-container">
+            <img src="icon.webp" alt="Extension Icon" class="extension-icon">
+        </div>
+        <h1>Extension Options</h1>
+        <div>
+            <label>
+                <input type="checkbox" id="incognitoMode">
+                <strong>Open in incognito mode</strong>
+            </label>
+            <label>
+                <h4>URL to open:</h4>
+                <input type="text" id="loginUrl" placeholder="http://localhost:8000/accounts/login/">
+            </label>
+            <label>
+                <h4>Username:</h4>
+                <input type="text" id="username" placeholder="Enter username">
+            </label>
+            <label>
+                <h4>Password:</h4>
+                <input type="password" id="password" placeholder="Enter password">
+            </label>
+            <details class="details">
+                <summary class="summary">Field Identifiers</summary>
+                <label>
+                    <h4>Username Field Identifier:</h4>
+                    <input type="text" id="usernameFieldId" placeholder="id_username">
+                    
+                </label>
+                <label>
+                    <h4>Password Field Identifier:</h4>
+                    <input type="text" id="passwordFieldId" placeholder="id_password">
+                </label>
+                <details class="details" style="background-color: rgb(226, 226, 226);">
+                    <summary>How to find the field identifiers?</summary>
+                    <p>Right-click on the username field and select "Inspect".</p>
+                    <p>Look for the "id" attribute of the input field.</p>
+                    <p>It should look like this: <code>&lt;input type="text" id="id_username" name="username"&gt;</code></p>
+                    <p>The field identifier is the value of the "id" attribute, in this case, <code>id_username</code>.</p>
+                </details>
+            </details>
+            <label>
+                <h4>Command Shortcut (e.g., Ctrl+Shift+H):</h4>
+                <input type="text" id="shortcut" placeholder="Enter shortcut">
+            </label>
+            <label>
+                <input type="checkbox" id="clearCacheOnLogin">
+                Clear cache on login [Not working yet, do not mark it]</h4>
+            </label>
+            <button id="save">Save Configuration</button>
+            <div id="notification" class="notification"></div>
+        </div>
+        <p class="developer-credit">Developed by <a href="https://github.com/Aniol0012" target="_blank">Aniol0012</a></p>
+    </div>
+    <script src="options.js"></script>
+</body>
+</html>

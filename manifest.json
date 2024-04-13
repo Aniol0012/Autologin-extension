@@ -1,0 +1,34 @@
+{
+    "manifest_version": 2,
+    "name": "Auto login extension",
+    "version": "6.0.1",
+    "description": "This extension automatically logs you in to an specific website",
+    "permissions": [
+      "activeTab",
+      "tabs",
+      "storage",
+      "commands",
+      "*://*/*"
+    ],
+    "background": {
+      "scripts": ["background.js"],
+      "persistent": false
+    },
+    "commands": {
+      "login-localhost": {
+        "suggested_key": {
+          "default": "Ctrl+Shift+H"
+        },
+        "description": "Login to localhost"
+      }
+    },
+    "content_scripts": [
+        {
+          "matches": ["<all_urls>"],
+          "js": ["content.js"],
+          "run_at": "document_end"
+        }
+      ],
+    "options_page": "options.html"
+  }
+  
