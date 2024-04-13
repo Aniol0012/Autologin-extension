@@ -171,3 +171,7 @@ button:hover {
     opacity: 0;
     right: -300px;
 }
+
+#clearCacheLabel {
+    display: none;
+}
