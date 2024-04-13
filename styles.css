@@ -60,6 +60,10 @@ button {
     box-sizing: border-box;
 }
 
+button:hover {
+    background-color: #45a049;
+}
+
 .image-container {
     text-align: center;
     margin: 20px 0;
