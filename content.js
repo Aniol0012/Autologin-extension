@@ -1,6 +1,6 @@
 window.onload = function() {
-    if (window.location.href.includes('/accounts/login/')) {
-        chrome.storage.local.get(['username', 'password', 'usernameFieldId', 'passwordFieldId'], function(data) {
+    chrome.storage.local.get(['loginUrl', 'username', 'password', 'usernameFieldId', 'passwordFieldId'], function(data) {
+        if (window.location.href.startsWith(data.loginUrl)) {
             const username = data.username || 'admin';
             const password = data.password || 'admin';
             const usernameFieldId = data.usernameFieldId || 'id_username';
@@ -16,6 +16,6 @@ window.onload = function() {
             } else {
                 console.error('Cannot find form elements.');
             }
-        });
-    }
+        }
+    });
 }
