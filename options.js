@@ -1,41 +1,80 @@
 document.addEventListener('DOMContentLoaded', function() {
-    chrome.storage.local.get([
-        'incognito', 'username', 'password', 'loginUrl', 'shortcut',
-        'clearCacheOnLogin', 'usernameFieldId', 'passwordFieldId'
-    ], function(data) {
-        document.getElementById('incognitoMode').checked = data.incognito || false;
-        document.getElementById('loginUrl').value = data.loginUrl || 'http://localhost:8000/accounts/login/';
-        document.getElementById('username').value = data.username || 'admin';
-        document.getElementById('password').value = data.password || 'admin';
-        document.getElementById('shortcut').value = data.shortcut || 'Ctrl+Shift+H';
-        document.getElementById('clearCacheOnLogin').checked = data.clearCacheOnLogin || false;
-        document.getElementById('usernameFieldId').value = data.usernameFieldId || 'id_username';
-        document.getElementById('passwordFieldId').value = data.passwordFieldId || 'id_password';
-    });
+    loadSettings();
 
     document.getElementById('save').addEventListener('click', function() {
-        const incognito = document.getElementById('incognitoMode').checked;
-        const username = document.getElementById('username').value || 'admin';
-        const password = document.getElementById('password').value || 'admin';
-        const loginUrl = document.getElementById('loginUrl').value;
-        const shortcut = document.getElementById('shortcut').value;
-        const clearCacheOnLogin = document.getElementById('clearCacheOnLogin').checked;
-        const usernameFieldId = document.getElementById('usernameFieldId').value || 'id_username';
-        const passwordFieldId = document.getElementById('passwordFieldId').value || 'id_password';
+        saveSettings();
+    });
 
-        chrome.storage.local.set({
-            incognito, username, password, loginUrl, shortcut, clearCacheOnLogin,
-            usernameFieldId, passwordFieldId
-        }, function() {
-            const notification = document.getElementById('notification');
-            notification.style.display = 'block';
-            notification.textContent = 'Configuration saved successfully!';
-            notification.classList.add('show');
-
-            setTimeout(function() {
-                notification.classList.remove('show');
-                notification.style.display = 'none';
-            }, 4000);
-        });
+    document.getElementById('reset').addEventListener('click', function() {
+        resetSettings();
     });
 });
+
+function loadSettings() {
+    chrome.storage.local.get({
+        incognito: false,
+        username: 'admin',
+        password: 'admin',
+        loginUrl: 'http://localhost:8000/accounts/login/',
+        shortcut: 'Ctrl+Shift+H',
+        clearCacheOnLogin: false,
+        usernameFieldId: 'id_username',
+        passwordFieldId: 'id_password',
+        formSelector: 'form'
+    }, function(data) {
+        document.getElementById('incognitoMode').checked = data.incognito;
+        document.getElementById('loginUrl').value = data.loginUrl;
+        document.getElementById('username').value = data.username;
+        document.getElementById('password').value = data.password;
+        document.getElementById('shortcut').value = data.shortcut;
+        document.getElementById('clearCacheOnLogin').checked = data.clearCacheOnLogin;
+        document.getElementById('usernameFieldId').value = data.usernameFieldId;
+        document.getElementById('passwordFieldId').value = data.passwordFieldId;
+        document.getElementById('formSelector').value = data.formSelector;
+    });
+}
+
+function saveSettings() {
+    chrome.storage.local.set({
+        incognito: document.getElementById('incognitoMode').checked,
+        username: document.getElementById('username').value,
+        password: document.getElementById('password').value,
+        loginUrl: document.getElementById('loginUrl').value,
+        shortcut: document.getElementById('shortcut').value,
+        clearCacheOnLogin: document.getElementById('clearCacheOnLogin').checked,
+        usernameFieldId: document.getElementById('usernameFieldId').value,
+        passwordFieldId: document.getElementById('passwordFieldId').value,
+        formSelector: document.getElementById('formSelector').value
+    }, function() {
+        showNotification('Configuration saved successfully!');
+    });
+}
+
+function resetSettings() {
+    chrome.storage.local.set({
+        incognito: false,
+        username: 'admin',
+        password: 'admin',
+        loginUrl: 'http://localhost:8000/accounts/login/',
+        shortcut: 'Ctrl+Shift+H',
+        clearCacheOnLogin: false,
+        usernameFieldId: 'id_username',
+        passwordFieldId: 'id_password',
+        formSelector: 'form'
+    }, function() {
+        loadSettings();
+        showNotification('Configuration reset to default values!');
+    });
+}
+
+function showNotification(message) {
+    const notification = document.getElementById('notification');
+    notification.textContent = message;
+    notification.style.display = 'block';
+    notification.classList.add('show');
+
+    setTimeout(function() {
+        notification.classList.remove('show');
+        notification.style.display = 'none';
+    }, 4000);
+}
